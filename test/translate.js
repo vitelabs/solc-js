@@ -17,6 +17,10 @@ tape('Version string to Semver translator', function (t) {
     st.equal(versionToSemver('0.4.20-nightly.2018.2.13+commit.27ef9794.Emscripten.clang'), '0.4.20-nightly.2018.2.13+commit.27ef9794.Emscripten.clang');
     st.end();
   });
+  t.test('Broken nightly with leading zeroes', function (st) {
+    st.equal(versionToSemver('0.4.1-nightly.2016.09.09+commit.79867f49.Emscripten.clang', '0.4.1-nightly.2016.9.9+commit.79867f49.Emscripten.clang');
+    st.end();
+  });
   t.test('Old style 0.1.1', function (st) {
     st.equal(versionToSemver('0.1.1-6ff4cd6b/RelWithDebInfo-Emscripten/clang/int'), '0.1.1+commit.6ff4cd6b');
     st.end();
