@@ -25,8 +25,8 @@ function versionToSemver (version) {
     return '0.3.5';
   }
   // This parses the obsolete nightly style where the date can have leading zeroes.
-  var nightly_parsed = version.match(/^([0-9]+\.[0-9]+\.[0-9]+)-nightly\.([0-9]+)\.0([1-9])\.0([1-9])(.*)$/);
-  if (nightly_parsed) {
+  var nightlyParsed = version.match(/^([0-9]+\.[0-9]+\.[0-9]+)-nightly\.([0-9]+)\.0([1-9])\.0([1-9])(.*)$/);
+  if (nightlyParsed) {
     return parsed[1] + '-nightly.' + parsed[2] + '.' + parsed[3] + '.' + parsed[4] + parsed[5];
   }
   // assume it is already semver compatible
