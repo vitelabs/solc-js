@@ -3,36 +3,43 @@ var execSync = require('child_process').execSync;
 var fs = require('fs');
 var tmp = require('tmp');
 
+// Timeout in ms.
 const timeout = 10000;
 
 var potentialSolvers = [
   {
     name: 'z3',
+    command: 'z3',
     params: '-smt2 rlimit=20000000 rewriter.pull_cheap_ite=true fp.spacer.q3.use_qgen=true fp.spacer.mbqi=false fp.spacer.ground_pobs=false'
   },
   {
+    name: 'Eldarica',
+    command: 'eld',
+    params: '-horn -t:' + (timeout / 1000)
+  },
+  {
     name: 'cvc4',
+    command: 'cvc4',
     params: '--lang=smt2 --tlimit=' + timeout
   }
 ];
-var solvers = potentialSolvers.filter(solver => commandExistsSync(solver.name));
+var solvers = potentialSolvers.filter(solver => commandExistsSync(solver.command));
 
-function solve (query) {
-  if (solvers.length === 0) {
-    throw new Error('No SMT solver available. Assertion checking will not be performed.');
+function solve (query, solver) {
+  if (solver === undefined) {
+    if (solvers.length === 0) {
+      throw new Error('No SMT solver available. Assertion checking will not be performed.');
+    } else {
+      solver = solvers[0];
+    }
   }
 
   var tmpFile = tmp.fileSync({ postfix: '.smt2' });
   fs.writeFileSync(tmpFile.name, query);
-  // TODO For now only the first SMT solver found is used.
-  // At some point a computation similar to the one done in
-  // SMTPortfolio::check should be performed, where the results
-  // given by different solvers are compared and an error is
-  // reported if solvers disagree (i.e. SAT vs UNSAT).
   var solverOutput;
   try {
     solverOutput = execSync(
-      solvers[0].name + ' ' + solvers[0].params + ' ' + tmpFile.name, {
+      solver.command + ' ' + solver.params + ' ' + tmpFile.name, {
         stdio: 'pipe'
       }
     ).toString();
@@ -44,7 +51,9 @@ function solve (query) {
     if (
       !solverOutput.startsWith('sat') &&
       !solverOutput.startsWith('unsat') &&
-      !solverOutput.startsWith('unknown')
+      !solverOutput.startsWith('unknown') &&
+      !solverOutput.startsWith('(error') &&
+      !solverOutput.startsWith('error')
     ) {
       throw new Error('Failed to solve SMT query. ' + e.toString());
     }
@@ -56,5 +65,5 @@ function solve (query) {
 
 module.exports = {
   smtSolver: solve,
-  availableSolvers: solvers.length
+  availableSolvers: solvers
 };
