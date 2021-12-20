@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vitelabs/solppc-js.git"
+    "url": "git+https://github.com/vitelabs/solc-js.git"
   },
   "keywords": [
     "vite",
@@ -40,9 +40,9 @@
   "author": "chriseth",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vitelabs/solppc-js/issues"
+    "url": "https://github.com/vitelabs/solc-js/issues"
   },
-  "homepage": "https://github.com/vitelabs/solppc-js#readme",
+  "homepage": "https://github.com/vitelabs/solc-js#readme",
   "dependencies": {
     "command-exists": "^1.2.8",
     "commander": "^8.1.0",
