@@ -1,15 +1,13 @@
 {
-  "name": "solc",
-  "version": "0.8.10",
-  "description": "Solidity compiler",
+  "name": "solppc",
+  "version": "0.8.0-alpha.1",
+  "description": "Soliditypp compiler",
   "main": "index.js",
   "bin": {
-    "solcjs": "solcjs"
+    "solppcjs": "solppcjs"
   },
   "scripts": {
     "lint": "node ./node_modules/semistandard/bin/cmd.js",
-    "updateBinary": "node downloadCurrentVersion.js && node verifyVersion.js",
-    "prepublishOnly": "npm run updateBinary",
     "pretest": "npm run lint",
     "test": "tape ./test/index.js",
     "coverage": "node ./node_modules/nyc/bin/nyc.js --reporter=lcov --reporter=text-summary ./node_modules/tape/bin/tape ./test/index.js",
@@ -17,11 +15,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ethereum/solc-js.git"
+    "url": "git+https://github.com/vitelabs/solppc-js.git"
   },
   "keywords": [
-    "ethereum",
+    "vite",
     "solidity",
+    "soliditypp",
     "compiler"
   ],
   "engines": {
@@ -33,7 +32,7 @@
     "linker.js",
     "smtchecker.js",
     "smtsolver.js",
-    "solcjs",
+    "solppcjs",
     "soljson.js",
     "translate.js",
     "wrapper.js"
@@ -41,9 +40,9 @@
   "author": "chriseth",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ethereum/solc-js/issues"
+    "url": "https://github.com/vitelabs/solppc-js/issues"
   },
-  "homepage": "https://github.com/ethereum/solc-js#readme",
+  "homepage": "https://github.com/vitelabs/solppc-js#readme",
   "dependencies": {
     "command-exists": "^1.2.8",
     "commander": "^8.1.0",
