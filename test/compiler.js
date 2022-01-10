@@ -5,7 +5,7 @@ const solc = require('../index.js');
 const linker = require('../linker.js');
 const execSync = require('child_process').execSync;
 
-var noRemoteVersions = (process.argv.indexOf('--no-remote-versions') >= 0);
+var noRemoteVersions = true; // (process.argv.indexOf('--no-remote-versions') >= 0);
 
 function runTests (solc, versionText) {
   console.log(`Running tests with ${versionText} ${solc.version()}`);

@@ -5,72 +5,72 @@ const pkg = require('../package.json');
 
 tape('CLI', function (t) {
   t.test('--version', function (st) {
-    var spt = spawn(st, './solcjs --version');
+    var spt = spawn(st, './solppcjs --version');
     spt.stdout.match(RegExp(pkg.version + '(-[^a-zA-A0-9.+]+)?(\\+[^a-zA-Z0-9.-]+)?'));
     spt.stderr.empty();
     spt.end();
   });
 
   t.test('no parameters', function (st) {
-    var spt = spawn(st, './solcjs');
+    var spt = spawn(st, './solppcjs');
     spt.stderr.match(/^Must provide a file/);
     spt.end();
   });
 
   t.test('no mode specified', function (st) {
-    var spt = spawn(st, './solcjs test/resources/fixtureSmoke.sol');
+    var spt = spawn(st, './solppcjs test/resources/fixtureSmoke.sol');
     spt.stderr.match(/^Invalid option selected/);
     spt.end();
   });
 
   t.test('--bin', function (st) {
-    var spt = spawn(st, './solcjs --bin test/resources/fixtureSmoke.sol');
+    var spt = spawn(st, './solppcjs --bin test/resources/fixtureSmoke.sol');
     spt.stderr.empty();
     spt.succeeds();
     spt.end();
   });
 
   t.test('--bin --optimize', function (st) {
-    var spt = spawn(st, './solcjs --bin --optimize test/resources/fixtureSmoke.sol');
+    var spt = spawn(st, './solppcjs --bin --optimize test/resources/fixtureSmoke.sol');
     spt.stderr.empty();
     spt.succeeds();
     spt.end();
   });
 
   t.test('--bin --optimize-runs 666', function (st) {
-    var spt = spawn(st, './solcjs --bin --optimize-runs 666 test/resources/fixtureSmoke.sol');
+    var spt = spawn(st, './solppcjs --bin --optimize-runs 666 test/resources/fixtureSmoke.sol');
     spt.stderr.empty();
     spt.succeeds();
     spt.end();
   });
 
   t.test('--bin --optimize-runs not-a-number', function (st) {
-    var spt = spawn(st, './solcjs --bin --optimize-runs not-a-number test/resources/fixtureSmoke.sol');
+    var spt = spawn(st, './solppcjs --bin --optimize-runs not-a-number test/resources/fixtureSmoke.sol');
     spt.stderr.match(/^error: option '--optimize-runs <optimize-runs>' argument 'not-a-number' is invalid/);
     spt.end();
   });
 
   t.test('invalid file specified', function (st) {
-    var spt = spawn(st, './solcjs --bin test/fileNotFound.sol');
+    var spt = spawn(st, './solppcjs --bin test/fileNotFound.sol');
     spt.stderr.match(/^Error reading /);
     spt.end();
   });
 
   t.test('incorrect source source', function (st) {
-    var spt = spawn(st, './solcjs --bin test/resources/fixtureIncorrectSource.sol');
+    var spt = spawn(st, './solppcjs --bin test/resources/fixtureIncorrectSource.sol');
     spt.stderr.match(/SyntaxError: Invalid pragma "contract"/);
     spt.end();
   });
 
   t.test('--abi', function (st) {
-    var spt = spawn(st, './solcjs --abi test/resources/fixtureSmoke.sol');
+    var spt = spawn(st, './solppcjs --abi test/resources/fixtureSmoke.sol');
     spt.stderr.empty();
     spt.succeeds();
     spt.end();
   });
 
   t.test('--bin --abi', function (st) {
-    var spt = spawn(st, './solcjs --bin --abi test/resources/fixtureSmoke.sol');
+    var spt = spawn(st, './solppcjs --bin --abi test/resources/fixtureSmoke.sol');
     spt.stderr.empty();
     spt.succeeds();
     spt.end();
@@ -79,7 +79,7 @@ tape('CLI', function (t) {
   t.test('no base path', function (st) {
     var spt = spawn(
       st,
-      './solcjs --bin ' +
+      './solppcjs --bin ' +
         'test/resources/importA.sol ' +
         './test/resources//importA.sol ' +
         path.resolve('test/resources/importA.sol')
@@ -95,7 +95,7 @@ tape('CLI', function (t) {
     // by the import callback when it appends the base path back.
     var spt = spawn(
       st,
-      './solcjs --bin --base-path test/resources ' +
+      './solppcjs --bin --base-path test/resources ' +
         'test/resources/importA.sol ' +
         './test/resources//importA.sol ' +
         path.resolve('test/resources/importA.sol')
@@ -108,7 +108,7 @@ tape('CLI', function (t) {
   t.test('relative non canonical base path', function (st) {
     var spt = spawn(
       st,
-      './solcjs --bin --base-path ./test/resources ' +
+      './solppcjs --bin --base-path ./test/resources ' +
         'test/resources/importA.sol ' +
         './test/resources//importA.sol ' +
         path.resolve('test/resources/importA.sol')
@@ -121,7 +121,7 @@ tape('CLI', function (t) {
   t.test('absolute base path', function (st) {
     var spt = spawn(
       st,
-      './solcjs --bin --base-path ' + path.resolve('test/resources') + ' ' +
+      './solppcjs --bin --base-path ' + path.resolve('test/resources') + ' ' +
         'test/resources/importA.sol ' +
         './test/resources//importA.sol ' +
         path.resolve('test/resources/importA.sol')
@@ -134,7 +134,7 @@ tape('CLI', function (t) {
   t.test('include paths', function (st) {
     const spt = spawn(
       st,
-      './solcjs --bin ' +
+      './solppcjs --bin ' +
         'test/resources/importCallback/base/contractB.sol ' +
         'test/resources/importCallback/includeA/libY.sol ' +
         './test/resources/importCallback/includeA//libY.sol ' +
@@ -151,7 +151,7 @@ tape('CLI', function (t) {
   t.test('include paths without base path', function (st) {
     const spt = spawn(
       st,
-      './solcjs --bin ' +
+      './solppcjs --bin ' +
         'test/resources/importCallback/contractC.sol ' +
         '--include-path test/resources/importCallback/includeA'
     );
@@ -163,7 +163,7 @@ tape('CLI', function (t) {
   t.test('empty include paths', function (st) {
     const spt = spawn(
       st,
-      './solcjs --bin ' +
+      './solppcjs --bin ' +
         'test/resources/importCallback/contractC.sol ' +
         '--base-path test/resources/importCallback/base ' +
         '--include-path='
@@ -189,7 +189,7 @@ tape('CLI', function (t) {
         }
       }
     };
-    var spt = spawn(st, './solcjs --standard-json');
+    var spt = spawn(st, './solppcjs --standard-json');
     spt.stdin.setEncoding('utf-8');
     spt.stdin.write(JSON.stringify(input));
     spt.stdin.end();
@@ -218,7 +218,7 @@ tape('CLI', function (t) {
         }
       }
     };
-    var spt = spawn(st, './solcjs --standard-json --base-path test/resources');
+    var spt = spawn(st, './solppcjs --standard-json --base-path test/resources');
     spt.stdin.setEncoding('utf-8');
     spt.stdin.write(JSON.stringify(input));
     spt.stdin.end();
@@ -244,7 +244,7 @@ tape('CLI', function (t) {
     };
     var spt = spawn(
       st,
-      './solcjs --standard-json ' +
+      './solppcjs --standard-json ' +
         '--base-path test/resources/importCallback/base ' +
         '--include-path test/resources/importCallback/includeA ' +
         '--include-path ' + path.resolve('test/resources/importCallback/includeB/')
