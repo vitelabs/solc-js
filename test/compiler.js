@@ -636,7 +636,7 @@ function runTests (solc, versionText) {
           'settings': {
             'libraries': {
               'lib.sol': {
-                'L': '0x4200000000000000000000000000000000000001'
+                'L': 'vite_010203040506070809080706050403020102030412227c8b71'
               }
             },
             'outputSelection': {
@@ -715,7 +715,7 @@ function runTests (solc, versionText) {
           'settings': {
             'libraries': {
               'lib.sol': {
-                'L': '0x4200000000000000000000000000000000000001'
+                'L': 'vite_010203040506070809080706050403020102030412227c8b71'
               }
             },
             'outputSelection': {

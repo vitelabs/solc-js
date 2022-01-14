@@ -1,5 +1,6 @@
 var assert = require('assert');
 var keccak256 = require('js-sha3').keccak256;
+var viteLib = require('@vite/vitejs-wallet').default;
 
 function libraryHashPlaceholder (input) {
   return '$' + keccak256(input).slice(0, 34) + '$';
@@ -28,20 +29,19 @@ var linkBytecode = function (bytecode, libraries) {
   }
 
   for (libraryName in librariesComplete) {
-    var hexAddress = librariesComplete[libraryName];
-    if (hexAddress.slice(0, 2) !== '0x' || hexAddress.length > 42) {
-      throw new Error('Invalid address specified for ' + libraryName);
+    var viteAddress = librariesComplete[libraryName];
+    if (viteAddress.slice(0, 5) !== 'vite_' || viteAddress.length > 55) {
+      throw new Error('Invalid Vite address specified for ' + libraryName);
     }
-    // remove 0x prefix
-    hexAddress = hexAddress.slice(2);
-    hexAddress = Array(40 - hexAddress.length + 1).join('0') + hexAddress;
+    // get hex of Vite address
+    var hexAddress = viteLib.getOriginalAddressFromAddress(viteAddress);
 
     // Support old (library name) and new (hash of library name)
     // placeholders.
     var replace = function (name) {
       // truncate to 37 characters
       var truncatedName = name.slice(0, 36);
-      var libLabel = '__' + truncatedName + Array(37 - truncatedName.length).join('_') + '__';
+      var libLabel = '__' + truncatedName + Array(37 - truncatedName.length).join('_') + '____';
       while (bytecode.indexOf(libLabel) >= 0) {
         bytecode = bytecode.replace(libLabel, hexAddress);
       }
@@ -56,12 +56,12 @@ var linkBytecode = function (bytecode, libraries) {
 
 var findLinkReferences = function (bytecode) {
   assert(typeof bytecode === 'string');
-  // find 40 bytes in the pattern of __...<36 digits>...__
-  // e.g. __Lib.sol:L_____________________________
+  // find 42 bytes in the pattern of __...<36 digits>...____
+  // e.g. __Lib.sol:L_______________________________
   var linkReferences = {};
   var offset = 0;
   while (true) {
-    var found = bytecode.match(/__(.{36})__/);
+    var found = bytecode.match(/__(.{36})____/);
     if (!found) {
       break;
     }
@@ -78,12 +78,12 @@ var findLinkReferences = function (bytecode) {
     linkReferences[libraryName].push({
       // offsets are in bytes in binary representation (and not hex)
       start: (offset + start) / 2,
-      length: 20
+      length: 21
     });
 
-    offset += start + 20;
+    offset += start + 21;
 
-    bytecode = bytecode.slice(start + 20);
+    bytecode = bytecode.slice(start + 21);
   }
   return linkReferences;
 };
