@@ -5,7 +5,7 @@ const solc = require('../index.js');
 const linker = require('../linker.js');
 const execSync = require('child_process').execSync;
 
-var noRemoteVersions = (process.argv.indexOf('--no-remote-versions') >= 0);
+var noRemoteVersions = true; // (process.argv.indexOf('--no-remote-versions') >= 0);
 
 function runTests (solc, versionText) {
   console.log(`Running tests with ${versionText} ${solc.version()}`);
@@ -636,7 +636,7 @@ function runTests (solc, versionText) {
           'settings': {
             'libraries': {
               'lib.sol': {
-                'L': '0x4200000000000000000000000000000000000001'
+                'L': 'vite_010203040506070809080706050403020102030412227c8b71'
               }
             },
             'outputSelection': {
@@ -715,7 +715,7 @@ function runTests (solc, versionText) {
           'settings': {
             'libraries': {
               'lib.sol': {
-                'L': '0x4200000000000000000000000000000000000001'
+                'L': 'vite_010203040506070809080706050403020102030412227c8b71'
               }
             },
             'outputSelection': {

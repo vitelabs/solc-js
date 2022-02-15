@@ -1,8 +1,11 @@
 {
-  "name": "solppc",
+  "name": "@vite/solppc",
   "version": "0.8.0-alpha.1",
   "description": "Soliditypp compiler",
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
     "solppcjs": "solppcjs"
   },
@@ -37,13 +40,14 @@
     "translate.js",
     "wrapper.js"
   ],
-  "author": "chriseth",
+  "author": "charles",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/vitelabs/solc-js/issues"
   },
   "homepage": "https://github.com/vitelabs/solc-js#readme",
   "dependencies": {
+    "@vite/vitejs-wallet": "^2.3.17",
     "command-exists": "^1.2.8",
     "commander": "^8.1.0",
     "follow-redirects": "^1.12.1",
