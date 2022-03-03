@@ -1,6 +1,6 @@
 {
   "name": "@vite/solppc",
-  "version": "0.8.0-alpha.1",
+  "version": "0.8.0-alpha.2",
   "description": "Soliditypp compiler",
   "main": "index.js",
   "publishConfig": {
