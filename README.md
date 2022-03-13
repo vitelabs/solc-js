@@ -7,12 +7,12 @@ JavaScript bindings for the [Solidity++ compiler](https://github.com/vitelabs/so
 To use the latest stable version of the Solidity++ compiler via Node.js you can install it via npm:
 
 ```bash
-npm install solppc
+npm install @vite/solppc
 ```
 
 ### Usage on the Command-Line
 
-If this package is installed globally (`npm install -g solppc`), a command-line tool called `solppcjs` will be available.
+If this package is installed globally (`npm install -g @vite/solppc`), a command-line tool called `solppcjs` will be available.
 
 To see all the supported features, execute:
 
@@ -63,7 +63,7 @@ an error, and keep re-running the compiler until all of them are resolved.
 Example:
 
 ```javascript
-var solppc = require('solppc');
+var solppc = require('@vite/solppc');
 
 var input = {
   language: 'Solidity',
@@ -96,7 +96,7 @@ for (var contractName in output.contracts['test.solpp']) {
 #### Example usage with import callback
 
 ```javascript
-var solppc = require('solppc');
+var solppc = require('@vite/solppc');
 
 var input = {
   language: 'Solidity',
@@ -148,7 +148,7 @@ Z3 or CVC4 being installed locally.
 #### Example usage with smtSolver callback
 
 ```javascript
-var solppc = require('solppc');
+var solppc = require('@vite/solppc');
 var smt = require('smtsolver');
 // Note that this example only works via node and not in the browser.
 
@@ -184,12 +184,12 @@ For examples how to use them, please refer to the README of the above mentioned 
 
 When using libraries, the resulting bytecode will contain placeholders for the real addresses of the referenced libraries. These have to be updated, via a process called linking, before deploying the contract.
 
-The `linker` module (`require('solppc/linker')`) offers helpers to accomplish this.
+The `linker` module (`require('@vite/solppc/linker')`) offers helpers to accomplish this.
 
 The `linkBytecode` method provides a simple helper for linking:
 
 ```javascript
-var linker = require('solppc/linker');
+var linker = require('@vite/solppc/linker');
 
 bytecode = linker.linkBytecode(bytecode, { MyLibrary: 'vite_01020304050607...' });
 ```
@@ -199,7 +199,7 @@ As of Solidity 0.4.11 the compiler supports [standard JSON input and output](htt
 There is a method available in the `linker` module called `findLinkReferences` which can find such link references in bytecode produced by an older compiler:
 
 ```javascript
-var linker = require('solppc/linker');
+var linker = require('@vite/solppc/linker');
 
 var linkReferences = linker.findLinkReferences(bytecode);
 ```
@@ -218,13 +218,13 @@ Add the version of `solppc` you want to use into `index.html`:
 This will load `solppc` into the global variable `window.Module`. Then use this inside Javascript as:
 
 ```javascript
-var wrapper = require('solppc/wrapper');
+var wrapper = require('@vite/solppc/wrapper');
 var solppc = wrapper(window.Module);
 ```
 
 Or in ES6 syntax:
 
 ```javascript
-import * as wrapper from 'solppc/wrapper';
+import * as wrapper from '@vite/solppc/wrapper';
 const solppc = wrapper(window.Module);
 ```
